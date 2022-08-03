@@ -4,14 +4,20 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Attraction implements Requirement{
+public class Attraction {
     private String name;
 
     private List<Requirement> requirements = new ArrayList<>();
 
-    private User user;
-
     public Attraction() {
+    }
+    public Attraction(Requirement requirement) {
+        requirements.add(requirement);
+    }
+
+    public Attraction(String name, List<Requirement> requirements) {
+        this.name = name;
+        this.requirements = requirements;
     }
 
     public Attraction(String name) {
@@ -27,27 +33,24 @@ public class Attraction implements Requirement{
         return this;
     }
 
-    public List<Requirement> getRequirements() {
-        return requirements;
-    }
-
-    public Attraction setRequirements(List<Requirement> requirements) {
-        this.requirements = requirements;
-        return this;
-    }
-
     public List<Requirement> addRequirement(Requirement requirement){
          requirements.add(requirement);
         return requirements;
     }
 
-    @Override
-    public boolean test(User user) {
-        return false;
+
+    public boolean verifyAccess(User user) {
+        for (Requirement requirement: requirements){
+            if (!requirement.test(user)){
+                return false;
+            }
+        }
+
+        return true;
     }
 
-    @Override
-    public boolean verifyAccess(User user) {
-        return user.getAge(LocalDate.now()) > 12;
+    public List<Requirement> createAttraction(int age){
+        return this.addRequirement(user -> user.getAge(LocalDate.now()) <= age);
+
     }
 }
