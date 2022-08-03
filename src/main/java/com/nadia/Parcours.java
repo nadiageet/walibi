@@ -57,4 +57,5 @@ public class Parcours {
     public int getNumberOfAttractions() {
         return attractions.size();
     }
+
 }

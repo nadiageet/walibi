@@ -136,6 +136,66 @@ class AttractionTest {
                         .forEach(entry ->
                 System.out.println(entry.getKey().getName() + " nombre d attraction: " + entry.getValue()));
     }
+    @Test
+    void play(){
+        Attraction a = new Attraction("piscine");
+        User user= new UserBuilder().name("Sofia").createUser();
+        String play = a.play(user);
+        System.out.println("play = " + play);
+    }
+
+    @Test
+    void notPlay(){
+        Attraction a = new Attraction("piscine");
+        a.addRequirement(user -> user.getName().equals("lyna"));
+        User user= new UserBuilder().name("Sofia").createUser();
+        Throwable throwable = Assertions.catchThrowable(() -> a.play(user));
+
+        Assertions.assertThat(throwable).isInstanceOf(IllegalStateException.class);
+     }
+
+
+    @Test
+    void playShouldCount(){
+        Attraction a = new Attraction("piscine");
+        User user = new UserBuilder()
+                .birthDate(LocalDate.now().minusYears(8))
+                .name("Sofia")
+                .createUser();
+        a.play(user);
+
+        Assertions.assertThat(a.getPlayers()).isEqualTo(1);
+    }
+
+    @Test
+    void playShouldCountOnce(){
+        Attraction a = new Attraction("piscine");
+        User user = new UserBuilder()
+                .birthDate(LocalDate.now().minusYears(8))
+                .name("Sofia")
+                .createUser();
+        a.play(user);
+        a.play(user);
+
+        Assertions.assertThat(a.getPlayers()).isEqualTo(1);
+    }
+
+    @Test
+    void playWithTooPlayers(){
+        Attraction a = new Attraction("piscine");
+        User user = new UserBuilder()
+                .birthDate(LocalDate.now().minusYears(8))
+                .name("Sofia")
+                .createUser();
+        User user1 = new UserBuilder()
+                .birthDate(LocalDate.now().minusYears(18))
+                .name("nadia")
+                .createUser();
+        a.play(user);
+        a.play(user1);
+
+        Assertions.assertThat(a.getPlayers()).isEqualTo(2);
+    }
 
 
 }
