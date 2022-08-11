@@ -1,0 +1,100 @@
+On va faire un systeme de location de films : Customer -> Rentals -> Movies -> Type
+
+1) Création des class de bases
+
+- class Movie (String title, Type type)
+title : titre du film
+type : une enum Type {ACTION, ADVENTURE, COMEDY};
+
+- class Rental(Movie movie, LocalDateTime rentedAt)
+movie: le film loué
+customer: Customer
+price: prix de la location
+rentedAt: la date et heure de location
+
+- class Customer :
+name: nom du client
+rentals: List<Rental> = locations du client
+
+- class MovieRepository: (ne pas trop s'en soucier au début)
+movies: List<Movie> les films disponibles
+methode : getAllMovies();
+conseil: sauvegarder tous les films dans une liste dans la class repository et les retourner
+
+
+- class CustomerRepository: (ne pas trop s'en soucier au début)
+movies: List<Customer> les clients disponibles
+methode : getAllCustomers();
+conseil: sauvegarder tous les clients dans une liste dans la class repository et les retourner
+
+- class RentalApplication: (ne pas trop s'en soucier au début)
+contiendra la méthode main, et la logique de l'application et les locations
+
+2) début des problèmes
+
+2.1 créer une location avec prix
+Le prix d'un film dépends du type de film.
+Pour louer un film d'ACTION = 10€
+Pour louer un film d'AVENTURE = 8€
+Pour louer un film COMEDY = 7€
+
+-> Ajouter une methode dans Movie : getPrice() => retourne le prix de la location
+
+-> Ajouter une méthode dans RentalApplication : rent(Movie movie, Customer customer)
+    qui va créer une Rental en settant le movie, le customer, le price et la date.
+    Il faudra aussi ajouter la location à la liste des locations du Customer.
+
+2.2 condition sur l'âge
+-> Ajouter une birthDate et une methode getAge(LocalDate now) dans Customer;
+-> Il est interdit de louer un film d'action aux moins de 16 ans
+-> Il est interdit de louer un film d'aventure aux moins de 12 ans
+
+2.3 ajout d'un système de points :
+dans la class Customer ajouter int points = 0;
+Chaque location rapporte 1 point par euro dépensé.
+
+2.4 expiration d'une location
+Une location expire au bout de 48h
+ajouter dans Rental une methode isActive() qui vérifie si la location est encore active (moins de 48h)
+
+2.5 points bonus
+si une location est passée alors qu'une autre location est active, multiplie les points par deux.
+
+2.6 VIP
+Lorsqu'un Customer atteint 30 points, il devient VIP.
+Un client VIP a accès aux films PREMIUM.
+ajouter un attribut PREMIUM dans les films , un boolean a false par défaut
+vérifier que seuls les clients VIP peuvent louer ces films PREMIUM.
+
+2.7 FANTASY
+Ajouter un nouveau type de film : FANTASY (ex: Harry Potter)
+le prix de ce film est 12€.
+
+2.8 VIP rent
+La location d'un film pour un VIP passe de 48h à 72h sans frais supplémentaires.
+
+2.9 affichages
+
+2.9.1 
+Dans Customer, une méthode getActiveRents() qui affichent les locations actives en montrant 
+le titre du film,
+ le prix de la location
+  et le temps restant de la forme : 1 day, 19 hours and 38 minutes.
+
+Si aucune location, afficher : "Aucune location en cours"
+
+2.9.2 Customer infos
+Dans Customer, une méthode infos() qui affichent le nom (avec badge VIP s'il est VIP), l'age,
+le nombre total de locations.
+
+2.9.3 Rentals frequencies
+Dans RentalApplication, une méthode rentalFrequencies() qui affiche le nombre de locations par type de film [ACTION: 18, ADVENTURE: 7, ...]
+
+3.0 Offrir une location a quelqu'un
+nouvelle methode gift(Customer buyer, Customer beneficiary, Movie movie)
+le buyer paye et recoit les points, mais la location est ajoutée chez le beneficiary.
+le beneficiary doit avoir l'age requis.
+Le nombre de gift (dons) est sauvegardé dans la class Customer et sera affiché dans Customer#infos() s'il en a déjà fait.
+
+
+Bon courage !!
