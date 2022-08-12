@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -63,13 +62,20 @@ class RentalServiceTest {
     }
 
     @Test
-    void addPoint() {
+    void addPointOnRent() {
+        Customer customer = new Customer("nadia", LocalDate.now().minusYears(18));
+        Rental rentAdventure = rentalService.rent(customer, adventureMovie);
+        assertThat(customer.getPoints())
+                .isEqualTo(8);
+    }
+
+    @Test
+    void addBonusPoint() {
         Customer customer = new Customer("nadia", LocalDate.now().minusYears(18));
         Rental rentAdventure = rentalService.rent(customer, adventureMovie);
         Rental rentAction = rentalService.rent(customer, actionMovie);
         assertThat(customer.getPoints())
-                .isEqualTo(18);
-
+                .isEqualTo(8 + 10 * 2);
     }
 
     @Test
