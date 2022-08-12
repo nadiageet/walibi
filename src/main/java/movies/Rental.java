@@ -43,6 +43,15 @@ public class Rental {
         long hours = rentedAt.until(now, ChronoUnit.HOURS);
         System.out.println(hours);
         LocalDateTime expirationDate = rentedAt.plusHours(48);
+        if (customer.isPrenium()){
+            expirationDate = rentedAt.plusHours(72);
+        }
         return now.isBefore(expirationDate);
     }
+
+    public Rental setRentedAt(LocalDateTime rentedAt) {
+        this.rentedAt = rentedAt;
+        return this;
+    }
+
 }

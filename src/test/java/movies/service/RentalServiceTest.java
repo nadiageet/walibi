@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -17,6 +19,8 @@ class RentalServiceTest {
     Customer customer = new Customer("nadia", LocalDate.parse("1981-05-24"));
     Movie actionMovie = new Movie("Bad Boy", Type.ACTION);
     Movie adventureMovie = new Movie("aventura", Type.ADVENTURE);
+    Movie comedieMovie = new Movie("comedies", Type.COMEDY);
+    Movie fantesieMovie = new Movie("fantesie", Type.FANTASY);
     private RentalService rentalService = new RentalService();
 
     @Test
@@ -71,5 +75,33 @@ class RentalServiceTest {
     @Test
     void expirationDate() {
 
+        Customer customer = new Customer("sofia", LocalDate.parse("2013-09-23"));
+        Rental rental = rentalService.rent(customer, comedieMovie);
+        rental.setRentedAt(LocalDateTime.now().minusDays(1));
+        assertThat(rental.isActive(LocalDateTime.now())).isTrue();
+    }
+
+     @Test
+    void isPrenium(){
+         Customer customer = new Customer("nadia", LocalDate.parse("1981-05-24"));
+         customer.addPoint(30);
+         assertThat(customer.isPrenium()).isTrue();
+     }
+
+     @Test
+    void rentFANTASYMovie(){
+         Customer customer = new Customer("nadia", LocalDate.parse("1981-05-24"));
+         Rental rental = rentalService.rent(customer, fantesieMovie);
+         assertThat(rental.getPrice()).isEqualTo("12");
+     }
+
+    @Test
+    void expirationDateVIPCustumer() {
+
+        Customer customer = new Customer("sofia", LocalDate.parse("2013-09-23"));
+        Rental rental = rentalService.rent(customer, comedieMovie);
+        customer.addPoint(40);
+        rental.setRentedAt(LocalDateTime.now().minusHours(50));
+        assertThat(rental.isActive(LocalDateTime.now())).isTrue();
     }
 }

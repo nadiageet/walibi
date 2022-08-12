@@ -46,4 +46,7 @@ public class Customer {
     public void addPoint(int point){
         points += point;
     }
+    public boolean isPrenium(){
+        return this.getPoints() >= 30;
+    }
 }

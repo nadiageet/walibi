@@ -35,6 +35,16 @@ public enum Type {
         public Optional<Integer> minimumAge() {
             return Optional.empty();
         }
+    },FANTASY {
+        @Override
+        public BigDecimal price() {
+            return new BigDecimal(12);
+        }
+
+        @Override
+        public Optional<Integer> minimumAge() {
+            return Optional.empty();
+        }
     };
 
     public abstract BigDecimal price();
