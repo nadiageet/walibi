@@ -102,4 +102,21 @@ public class RentalService {
                 .collect(Collectors.toList());
     }
 
+    public Rental gift(Customer buyer, Customer beneficiary, Movie movie, LocalDateTime rentalDate){
+        LocalDateTime expirationDate = expirationDate(rentalDate, buyer);
+        movie.getType().minimumAge().ifPresent(age -> ensureMinimumAge(beneficiary, age));
+        BigDecimal price = movie.getType().price();
+        int points = computePoints(price, buyer, rentalDate);
+        buyer.addPoint(points);
+        buyer.addGift();
+        Rental rental = new Rental(movie, rentalDate, beneficiary, price, expirationDate);
+        beneficiary.getLocations().add(rental);
+
+        rentalRepository.save(rental);
+
+
+        return rental;
+
+    }
+
 }

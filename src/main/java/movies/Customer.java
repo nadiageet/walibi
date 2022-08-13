@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
+
 public class Customer {
 
     private String nameOfClient;
@@ -14,6 +16,8 @@ public class Customer {
     private LocalDate birthDate;
 
     private int points = 0;
+
+    private int gift = 0;
 
     public Customer(String nameOfClient, List<Rental> locations) {
         this.nameOfClient = nameOfClient;
@@ -45,6 +49,14 @@ public class Customer {
         return points;
     }
 
+    public int getGift() {
+        return gift;
+    }
+
+    public void addGift(){
+        gift++;
+    }
+
     public void addPoint(int point) {
         points += point;
     }
@@ -61,6 +73,9 @@ public class Customer {
         String infos = customer.nameOfClient;
         if (isPrenium()) {
             infos += " a un badge VIP et";
+        }
+        if(gift > 0){
+            infos += format(" a donné %s cadeaux et ", gift);
         }
         infos += " a " + locations.size() + " locations.";
         return infos;

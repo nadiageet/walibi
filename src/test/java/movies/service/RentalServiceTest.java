@@ -166,4 +166,13 @@ class RentalServiceTest {
 
 
     }
+
+    @Test
+    void gift() {
+        Customer buyer = new Customer("nadia", LocalDate.parse("1981-05-24"));
+        Customer beneficiary = new Customer("sofia", LocalDate.parse("2013-09-23"));
+        Rental rental = rentalService.gift(buyer, beneficiary, comedieMovie, LocalDateTime.now() );
+        assertThat(rental.getCustomer()).isEqualTo(beneficiary);
+        assertThat(buyer.getGift()).isEqualTo(1);
+    }
 }
