@@ -4,8 +4,7 @@ import movies.*;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -174,5 +173,13 @@ class RentalServiceTest {
         Rental rental = rentalService.gift(buyer, beneficiary, comedieMovie, LocalDateTime.now() );
         assertThat(rental.getCustomer()).isEqualTo(beneficiary);
         assertThat(buyer.getGift()).isEqualTo(1);
+    }
+
+    public static void main(String[] args) {
+        Clock clock = Clock.fixed(Instant.parse("2020-01-01T12:00:00Z"), ZoneId.of("Europe/Paris"));
+
+        LocalDateTime now = LocalDateTime.now(clock);
+
+        System.out.println("now = " + now);
     }
 }
