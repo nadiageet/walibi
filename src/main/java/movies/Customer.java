@@ -1,8 +1,10 @@
 package movies;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Customer {
 
@@ -35,7 +37,7 @@ public class Customer {
         return birthDate;
     }
 
-    public Integer getAge(LocalDate now){
+    public Integer getAge(LocalDate now) {
         return birthDate.until(now).getYears();
     }
 
@@ -43,10 +45,24 @@ public class Customer {
         return points;
     }
 
-    public void addPoint(int point){
+    public void addPoint(int point) {
         points += point;
     }
-    public boolean isPrenium(){
+
+    public boolean isPrenium() {
         return this.getPoints() >= 30;
+    }
+
+    public List<Rental> getActiveRents(LocalDateTime date) {
+        return this.locations.stream().filter(rental -> rental.isActive(date)).collect(Collectors.toList());
+    }
+
+    public String infos(Customer customer) {
+        String infos = customer.nameOfClient;
+        if (isPrenium()) {
+            infos += " a un badge VIP et";
+        }
+        infos += " a " + locations.size() + " locations.";
+        return infos;
     }
 }

@@ -1,10 +1,7 @@
 package movies;
 
-import sun.util.resources.LocaleData;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 public class Rental {
     private Movie movie;
@@ -13,13 +10,15 @@ public class Rental {
     private Customer customer;
 
     private BigDecimal price;
+    private LocalDateTime expirationDate;
 
 
-    public Rental(Movie movie, LocalDateTime rentedAt, Customer customer, BigDecimal price) {
+    public Rental(Movie movie, LocalDateTime rentedAt, Customer customer, BigDecimal price, LocalDateTime expirationDate) {
         this.movie = movie;
         this.rentedAt = rentedAt;
         this.customer = customer;
         this.price = price;
+        this.expirationDate = expirationDate;
     }
 
     public Movie getMovie() {
@@ -40,12 +39,6 @@ public class Rental {
 
     public boolean isActive(LocalDateTime now){
 
-        long hours = rentedAt.until(now, ChronoUnit.HOURS);
-        System.out.println(hours);
-        LocalDateTime expirationDate = rentedAt.plusHours(48);
-        if (customer.isPrenium()){
-            expirationDate = rentedAt.plusHours(72);
-        }
         return now.isBefore(expirationDate);
     }
 
@@ -54,4 +47,7 @@ public class Rental {
         return this;
     }
 
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
+    }
 }

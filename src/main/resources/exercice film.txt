@@ -88,7 +88,8 @@ Dans Customer, une méthode infos() qui affichent le nom (avec badge VIP s'il es
 le nombre total de locations.
 
 2.9.3 Rentals frequencies
-Dans RentalApplication, une méthode rentalFrequencies() qui affiche le nombre de locations par type de film [ACTION: 18, ADVENTURE: 7, ...]
+Dans RentalApplication, une méthode rentalFrequencies() qui affiche le nombre de locations
+par type de film [ACTION: 18, ADVENTURE: 7, ...]
 
 3.0 Offrir une location a quelqu'un
 nouvelle methode gift(Customer buyer, Customer beneficiary, Movie movie)
